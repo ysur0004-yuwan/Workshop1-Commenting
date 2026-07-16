@@ -18,7 +18,9 @@ def generate_noisy_images(
         img = Image.new("RGB", (width, height), color="white")
         draw = ImageDraw.Draw(img)
         text = "MMA3001"
-        text_w, text_h = draw.textsize(text, font=font)
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_w = bbox[2] - bbox[0]
+        text_h = bbox[3] - bbox[1]
         pos = ((width - text_w) // 2, (height - text_h) // 2)
         draw.text(pos, text, fill="black", font=font)
         noise = np.random.randn(height, width, 3) * 255 * noise_level
